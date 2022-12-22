@@ -27,7 +27,7 @@ userRouter.post("/login", async (req, res) => {
                 process.env.SECRET_KEY
               );
 
-              res.status(200).send({ message: "Login successfull", token });
+              res.status(200).send({ message: "Login successfull", token,user:checkUser });
             } else {
               res.status(401).send({ message: "Incorrect credentials" });
             }
@@ -50,8 +50,13 @@ userRouter.post("/signup", async (req, res) => {
   let userData = req.body;
 
   try {
-    if (userData.username && userData.email && userData.password) {
-      let { password } = req.body;
+    if (userData.name && userData.email && userData.password) {
+      let { password,email } = req.body;
+      let checkUser = await UserModel({email});
+      if(checkUser){
+        res.status(401).send({message:"User already exist"})
+      }
+      else{
 
       bcrypt.hash(password, 4, async (err, hash) => {
         if (err) {
@@ -62,6 +67,7 @@ userRouter.post("/signup", async (req, res) => {
           res.status(200).send({ message: "User signup successfull" });
         }
       });
+    }
     } else {
       res.status(401).send({ message: "Send valid user details" });
     }
