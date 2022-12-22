@@ -20,7 +20,7 @@ server.get("/", (req, res) => {
   res.status(200).send({ message: "Welcome to QuadNinja Server" });
 });
 
-server.use("/user",userRouter);
+server.use(userRouter);
 
   server.use("/questions", questionRouter);
   server.use("/solutions", solutionRouter);
