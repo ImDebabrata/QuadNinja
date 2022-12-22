@@ -9,6 +9,7 @@ questionRouter.get("/", async (req, res) => {
 
 questionRouter.post("/create", async (req, res) => {
   const payload = req.body;
+  console.log("payload:", payload);
   try {
     const new_question = new QuestionModel(payload);
     await new_question.save();
@@ -29,3 +30,5 @@ questionRouter.delete("/delete", async (req, res) => {
     res.send({ response: "Question Deleted Successfully" });
   }
 });
+
+module.exports = { questionRouter };

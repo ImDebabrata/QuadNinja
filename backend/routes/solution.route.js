@@ -2,8 +2,10 @@ const express = require("express");
 const { SolutionModel } = require("../model/Solution.model");
 const solutionRouter = express.Router();
 
-solutionRouter.get("/", async (req, res) => {
-  const solution = await SolutionModel.find();
+solutionRouter.post("/", async (req, res) => {
+  const { questionID } = req.body;
+  console.log("questionID:", req.body);
+  const solution = await SolutionModel.find({ questionID });
   res.send(solution);
 });
 
@@ -29,3 +31,5 @@ solutionRouter.delete("/delete", async (req, res) => {
     res.send({ response: "Solution Deleted Successfully" });
   }
 });
+
+module.exports = { solutionRouter };

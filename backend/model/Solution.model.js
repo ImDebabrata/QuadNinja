@@ -6,6 +6,6 @@ const solutionSchema = mongoose.Schema({
   helperID: { type: String, required: true },
 });
 
-const SolutionModel = mongoose.model("question", solutionSchema);
+const SolutionModel = mongoose.model("solution", solutionSchema);
 
 module.exports = { SolutionModel };
