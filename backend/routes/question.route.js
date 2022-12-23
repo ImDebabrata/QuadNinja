@@ -9,7 +9,7 @@ questionRouter.get("/", async (req, res) => {
 
 questionRouter.post("/create", async (req, res) => {
   const payload = req.body;
-  console.log("payload:", payload);
+  // console.log("payload:", payload);
   try {
     const new_question = new QuestionModel(payload);
     await new_question.save();

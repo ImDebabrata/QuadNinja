@@ -7,7 +7,7 @@ const { UserModel } = require("../model/User.model");
 
 const userRouter = express.Router();
 
-// user login request 
+// user login request
 userRouter.post("/login", async (req, res) => {
   let userData = req.body;
 
@@ -26,8 +26,12 @@ userRouter.post("/login", async (req, res) => {
                 { userId: checkUser._id },
                 process.env.SECRET_KEY
               );
-
-              res.status(200).send({ message: "Login successfull", token,user:checkUser });
+              // console.log(checkUser);
+              res.status(200).send({
+                message: "Login successfull",
+                token,
+                user: { id: checkUser._id, name: checkUser.name },
+              });
             } else {
               res.status(401).send({ message: "Incorrect credentials" });
             }
@@ -51,23 +55,21 @@ userRouter.post("/signup", async (req, res) => {
 
   try {
     if (userData.name && userData.email && userData.password) {
-      let { password,email } = req.body;
-      let checkUser = await UserModel({email});
-      if(checkUser){
-        res.status(401).send({message:"User already exist"})
+      let { password, email } = req.body;
+      let checkUser = await UserModel.findOne({ email });
+      if (checkUser) {
+        res.status(401).send({ message: "User already exist" });
+      } else {
+        bcrypt.hash(password, 4, async (err, hash) => {
+          if (err) {
+            console.log({ message: "something went wrong in bcrypt", err });
+          } else {
+            let newUser = new UserModel({ ...userData, password: hash });
+            await newUser.save();
+            res.status(200).send({ message: "User signup successfull" });
+          }
+        });
       }
-      else{
-
-      bcrypt.hash(password, 4, async (err, hash) => {
-        if (err) {
-          console.log({ message: "something went wrong in bcrypt", err });
-        } else {
-          let newUser = new UserModel({ ...userData, password: hash });
-          await newUser.save();
-          res.status(200).send({ message: "User signup successfull" });
-        }
-      });
-    }
     } else {
       res.status(401).send({ message: "Send valid user details" });
     }

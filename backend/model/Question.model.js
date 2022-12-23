@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const questionSchema = mongoose.Schema({
   title: { type: String, required: true },
-  catagory: { type: Array, required: true },
+  // catagory: { type: Array, required: true },
   studentID: { type: String, required: true },
   name: { type: String, required: true },
 });
