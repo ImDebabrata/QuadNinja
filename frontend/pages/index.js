@@ -2,7 +2,46 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
+import { useEffect, useState } from "react";
+import style from "./../sass/home.module.scss";
+import QuestionBox from "./../Components/Home/QuestionBox";
+import axios from "axios";
+import Navbar from "./../Components/Navbar/Navbar";
+import { getLocalStorage } from "../Components/LocalStorage/getLsData";
+import { baseUrl } from "./api";
+
 export default function Home() {
+  const [questions, setQuestions] = useState([]);
+  const [questionTxt, setQuestionTxt] = useState("");
+  let login_user = getLocalStorage();
+
+  const handlePostQuestion = () => {
+    if (login_user) {
+      const payload = {
+        title: questionTxt,
+        studentID: login_user.id,
+        name: login_user.name,
+      };
+      axios
+        .post(`${baseUrl}/questions/create`, payload)
+        .then((res) => console.log(res.data.response))
+        .catch((err) => alert("something went wrong"))
+        .finally(() => getQuestionList());
+    } else {
+      alert("Please Login First");
+    }
+  };
+
+  const getQuestionList = () => {
+    axios
+      .get(`${baseUrl}/questions`)
+      .then((res) => setQuestions(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getQuestionList();
+  }, []);
   return (
     <>
       <Head>
@@ -11,7 +50,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <main>
+        <Navbar />
+        <div className={style.post_new_question}>
+          <textarea
+            value={questionTxt}
+            onChange={(e) => setQuestionTxt(e.target.value)}
+            placeholder="Write Question"
+          />
+          <button onClick={handlePostQuestion}>Post Question</button>
+        </div>
+        <div className="question_wrapper">
+          {questions.length > 0 &&
+            questions.map((item) => {
+              return <QuestionBox key={item._id} item={item} />;
+            })}
+        </div>
+      </main>
     </>
   );
 }

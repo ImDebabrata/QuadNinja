@@ -10,9 +10,19 @@
   border-radius: 13px;
   margin: 20px auto;
   padding: 10px;
+  > .question_area {
+    display: flex;
+    gap: 12px;
+  }
   > .solution_box {
     border-top: 1px solid gray;
     margin-top: 20px;
     padding: 7px;
+    > .solutionAns {
+      display: flex;
+      gap: 10px;
+      border: 1px solid rgba(128, 128, 128, 0.295);
+      margin: 10px 0;
+    }
   }
 }
