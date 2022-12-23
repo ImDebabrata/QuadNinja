@@ -12,22 +12,26 @@ const QuestionBox = ({ item }) => {
   let login_user = getLocalStorage();
 
   const handlePostSolution = () => {
-    const payload = {
-      title: solutionTxt,
-      questionID: item._id,
-      helperID: login_user.id,
-      helperName: login_user.name,
-    };
-    axios
-      .post(`${baseUrl}/solutions/create`, payload)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err))
-      .finally(() => getSolutions(item._id));
-    setSolutionTxt("");
+    if (login_user) {
+      const payload = {
+        title: solutionTxt,
+        questionID: item._id,
+        helperID: login_user.id,
+        helperName: login_user.name,
+      };
+      axios
+        .post(`${baseUrl}/solutions/create`, payload)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err))
+        .finally(() => getSolutions(item._id));
+      setSolutionTxt("");
+    } else {
+      alert("Try Login First");
+    }
   };
 
   const getSolutions = (questionID) => {
-    console.log(item.studentID, login_user.id);
+    // console.log(item.studentID, login_user.id);
 
     axios
       .post(`${baseUrl}/solutions`, {
@@ -40,7 +44,7 @@ const QuestionBox = ({ item }) => {
     <div className={style.question_box} key={item._id}>
       <div className={style.question_area}>
         <h3>{item.title}</h3>
-        {item.studentID === login_user.id && <button>Delete Question</button>}
+        {item.studentID === login_user?.id && <button>Delete Question</button>}
       </div>
       <button
         onClick={() => {
