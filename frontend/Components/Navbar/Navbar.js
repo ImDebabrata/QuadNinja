@@ -1,3 +1,4 @@
+import { baseUrl } from "../../pages/api";
 import style from "../../sass/navbar.module.scss";
 import Link from "next/link";
 const Navbar = () => {
@@ -6,7 +7,10 @@ const Navbar = () => {
       <Link href="/">Home</Link>
       <Link href="/login">Login</Link>
       <Link href="/signup">Signup</Link>
-      <Link href="/signup">Chat</Link>
+      <Link target={"_blank"} href={`${baseUrl}/chat`}>
+        Chat
+      </Link>
+      <button onClick={() => localStorage.clear()}>LogOut</button>
     </div>
   );
 };
