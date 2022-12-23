@@ -4,7 +4,6 @@ const solutionRouter = express.Router();
 
 solutionRouter.post("/", async (req, res) => {
   const { questionID } = req.body;
-  console.log("questionID:", req.body);
   const solution = await SolutionModel.find({ questionID });
   res.send(solution);
 });

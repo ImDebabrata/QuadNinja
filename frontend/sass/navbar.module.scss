@@ -1,0 +1,15 @@
+.navbar {
+  //   border: 1px solid black;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: gray;
+  margin-bottom: 20px;
+  > a {
+    text-decoration: none;
+    color: black;
+    font-size: 23px;
+    font-weight: bold;
+  }
+}

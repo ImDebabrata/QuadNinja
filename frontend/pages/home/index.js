@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import style from "../../sass/home.module.scss";
 import QuestionBox from "../../Components/Home/QuestionBox";
 import axios from "axios";
+import Navbar from "../../Components/Navbar/Navbar";
 
 const index = () => {
   const [questions, setQuestions] = useState([]);
@@ -13,7 +15,11 @@ const index = () => {
   }, []);
   return (
     <>
-      <h1>Home</h1>
+      <Navbar />
+      <div className={style.post_new_question}>
+        <input />
+        <button>Post Question</button>
+      </div>
       <div className="question_wrapper">
         {questions.length > 0 &&
           questions.map((item) => {
