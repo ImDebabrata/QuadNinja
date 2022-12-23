@@ -1,7 +1,18 @@
+.post_new_question {
+  // border: 1px solid grey;
+  max-width: 80%;
+  width: fit-content;
+  margin: auto;
+}
 .question_box {
-  border: 1px solid red;
+  border: 1px solid grey;
   width: 80%;
   border-radius: 13px;
   margin: 20px auto;
   padding: 10px;
+  > .solution_box {
+    border-top: 1px solid gray;
+    margin-top: 20px;
+    padding: 7px;
+  }
 }
